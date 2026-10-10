@@ -1,0 +1,346 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with role, email verification, download counts, and activity status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "username": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "status": { "type": "string", "enum": ["active", "suspended", "banned"] },
+        "isEmailVerified": { "type": "boolean" },
+        "emailVerified": { "type": "boolean" },
+        "avatarUrl": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "dailyDownloadCount": { "type": "number" },
+        "totalDownloadCount": { "type": "number" },
+        "lastDownloadDate": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "lastLoginAt": { "type": "string" }
+      },
+      "required": ["email", "username", "role"]
+    },
+    "userActivity": {
+      "title": "UserActivity",
+      "description": "Log of user actions, login events, and downloads",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "username": { "type": "string" },
+        "action": { "type": "string" },
+        "resourceId": { "type": "string" },
+        "resourceTitle": { "type": "string" },
+        "ipAddress": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["action", "timestamp"]
+    },
+    "adminActivityLog": {
+      "title": "AdminActivityLog",
+      "description": "Audit trail of administrative actions performed in the system",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetId": { "type": "string" },
+        "targetType": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["adminEmail", "action", "timestamp"]
+    },
+    "emailTemplate": {
+      "title": "EmailTemplate",
+      "description": "Customizable HTML/Text transactional email templates",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "subject": { "type": "string" },
+        "body": { "type": "string" },
+        "category": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "subject", "body"]
+    },
+    "emailLog": {
+      "title": "EmailLog",
+      "description": "Log of emails sent via Brevo SMTP / backend",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "recipient": { "type": "string" },
+        "subject": { "type": "string" },
+        "status": { "type": "string" },
+        "sentAt": { "type": "string" }
+      }
+    },
+    "emailSettings": {
+      "title": "EmailSettings",
+      "description": "Configuration metadata for transactional email service",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "provider": { "type": "string" },
+        "fromEmail": { "type": "string" },
+        "fromName": { "type": "string" }
+      }
+    },
+    "product": {
+      "title": "Product",
+      "description": "Products and downloadable resources",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "downloadUrl": { "type": "string" },
+        "telegramUrl": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "isHot": { "type": "boolean" },
+        "isNew": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "downloadsCount": { "type": "number" },
+        "telegramClicksCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "category": {
+      "title": "Category",
+      "description": "Resource categories",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "count": { "type": "number" },
+        "badge": { "type": "string" }
+      }
+    },
+    "inquiry": {
+      "title": "Inquiry",
+      "description": "Contact form submissions and support requests",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "telegramWhatsapp": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["message"]
+    },
+    "supportConversation": {
+      "title": "SupportConversation",
+      "description": "Customer support chat conversations between user/guest and AI/Human Admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "guestId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "status": { "type": "string", "enum": ["ai_handling", "waiting_human", "human_handling", "resolved", "closed"] },
+        "assignedAdmin": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "lastMessageAt": { "type": "string" },
+        "unreadCount": { "type": "number" },
+        "unreadAdminCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userName", "status"]
+    },
+    "supportMessage": {
+      "title": "SupportMessage",
+      "description": "Chronological chat messages in a support conversation thread",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderType": { "type": "string", "enum": ["user", "guest", "ai", "admin", "system"] },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "content": { "type": "string" },
+        "attachment": { "type": "string" },
+        "attachmentType": { "type": "string" },
+        "attachmentName": { "type": "string" },
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["conversationId", "senderType", "content"]
+    },
+    "aiProviderConfig": {
+      "title": "AIProviderConfig",
+      "description": "Pluggable AI provider configuration (Gemini, Groq, OpenAI)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["gemini", "groq", "openai"] },
+        "model": { "type": "string" },
+        "visionModel": { "type": "string" },
+        "baseUrl": { "type": "string" },
+        "temperature": { "type": "number" },
+        "maxOutputTokens": { "type": "number" },
+        "enabled": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
+        "isFallback": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "type", "model"]
+    },
+    "knowledgeDocument": {
+      "title": "KnowledgeDocument",
+      "description": "Indexed knowledge base documents and chunks for RAG grounding",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sourceType": { "type": "string", "enum": ["product", "category", "faq", "policy", "custom"] },
+        "sourceId": { "type": "string" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "content": { "type": "string" },
+        "chunksCount": { "type": "number" },
+        "contentHash": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "content"]
+    },
+    "guestProfile": {
+      "title": "GuestProfile",
+      "description": "Anonymous guest visitor profile with device metadata, activity stats, and account linking state",
+      "type": "object",
+      "properties": {
+        "guestId": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "lastActiveAt": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "device": { "type": "string" },
+        "browser": { "type": "string" },
+        "os": { "type": "string" },
+        "language": { "type": "string" },
+        "screenResolution": { "type": "string" },
+        "referrer": { "type": "string" },
+        "initialLandingPage": { "type": "string" },
+        "currentLandingPage": { "type": "string" },
+        "pageViewsCount": { "type": "number" },
+        "sessionCount": { "type": "number" },
+        "downloadsCount": { "type": "number" },
+        "chatMessagesCount": { "type": "number" },
+        "supportReportsCount": { "type": "number" },
+        "linkedUserId": { "type": "string" },
+        "linkedUserEmail": { "type": "string" },
+        "linkedAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "linked", "merged", "expired"] },
+        "lastSessionId": { "type": "string" }
+      },
+      "required": ["guestId", "createdAt", "status"]
+    },
+    "guestSession": {
+      "title": "GuestSession",
+      "description": "Visitor session tracking navigation journeys, dwell duration, and interactions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "guestId": { "type": "string" },
+        "startedAt": { "type": "string" },
+        "lastActiveAt": { "type": "string" },
+        "durationSeconds": { "type": "number" },
+        "landingPage": { "type": "string" },
+        "exitPage": { "type": "string" },
+        "pageViews": { "type": "array", "items": { "type": "string" } },
+        "events": { "type": "array", "items": { "type": "object" } },
+        "linkedUserId": { "type": "string" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["id", "guestId", "startedAt"]
+    }
+  },
+  "firestore": {
+    "/guestProfiles/{guestId}": {
+      "schema": "guestProfile",
+      "description": "Guest visitor profiles and account linking records"
+    },
+    "/guestSessions/{sessionId}": {
+      "schema": "guestSession",
+      "description": "Guest and visitor sessions with chronological user interaction journeys"
+    },
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profiles"
+    },
+    "/user_activities/{activityId}": {
+      "schema": "userActivity",
+      "description": "User activity tracking"
+    },
+    "/admin_activity_logs/{logId}": {
+      "schema": "adminActivityLog",
+      "description": "Admin audit log"
+    },
+    "/email_templates/{templateId}": {
+      "schema": "emailTemplate",
+      "description": "Transactional email templates"
+    },
+    "/email_logs/{logId}": {
+      "schema": "emailLog",
+      "description": "Transactional email logs"
+    },
+    "/email_settings/{settingId}": {
+      "schema": "emailSettings",
+      "description": "Email server configuration settings"
+    },
+    "/products/{productId}": {
+      "schema": "product",
+      "description": "Public products"
+    },
+    "/resources/{resourceId}": {
+      "schema": "product",
+      "description": "Public downloadable resources and assets"
+    },
+    "/categories/{categoryId}": {
+      "schema": "category",
+      "description": "Product categories"
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": "inquiry",
+      "description": "User inquiries"
+    },
+    "/settings/{settingId}": {
+      "schema": "emailSettings",
+      "description": "Global application and email settings"
+    },
+    "/support_conversations/{conversationId}": {
+      "schema": "supportConversation",
+      "description": "Customer support conversations"
+    },
+    "/support_messages/{messageId}": {
+      "schema": "supportMessage",
+      "description": "Support messages in conversation threads"
+    },
+    "/ai_providers/{providerId}": {
+      "schema": "aiProviderConfig",
+      "description": "AI provider connection configurations"
+    },
+    "/knowledge_documents/{docId}": {
+      "schema": "knowledgeDocument",
+      "description": "RAG Knowledge base documents"
+    }
+  }
+}

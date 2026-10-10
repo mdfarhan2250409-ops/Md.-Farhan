@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="otlBgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0B1D51" />
+      <stop offset="70%" stop-color="#050B1E" />
+      <stop offset="100%" stop-color="#020612" />
+    </radialGradient>
+    <linearGradient id="otlBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF" />
+      <stop offset="50%" stop-color="#5DE2E7" />
+      <stop offset="100%" stop-color="#0077FE" />
+    </linearGradient>
+    <linearGradient id="otlTextGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#70F3FF" />
+      <stop offset="50%" stop-color="#00D2FF" />
+      <stop offset="100%" stop-color="#0088FF" />
+    </linearGradient>
+    <filter id="otlGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Glow Ring -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#00F0FF" stroke-width="2" stroke-opacity="0.4" />
+  
+  <!-- Main Emblem Body -->
+  <circle cx="100" cy="100" r="90" fill="url(#otlBgGrad)" stroke="url(#otlBorderGrad)" stroke-width="6" />
+
+  <!-- Inner Cyan Ring -->
+  <circle cx="100" cy="100" r="78" fill="none" stroke="#5DE2E7" stroke-width="1.5" stroke-opacity="0.6" stroke-dasharray="5 3" />
+
+  <!-- Core Circle -->
+  <circle cx="100" cy="100" r="72" fill="none" stroke="#00D2FF" stroke-width="1" stroke-opacity="0.3" />
+
+  <!-- OTL Text -->
+  <text x="100" y="118" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="52" font-weight="900" fill="url(#otlTextGrad)" text-anchor="middle" letter-spacing="2" filter="url(#otlGlow)">OTL</text>
+</svg>

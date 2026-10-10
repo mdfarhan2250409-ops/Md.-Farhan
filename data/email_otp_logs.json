@@ -1,0 +1,83 @@
+[
+  {
+    "recipientEmail": "onlinetasklab@gmail.com",
+    "recipientName": "Admin Test",
+    "purpose": "broadcast_email",
+    "subject": "Clean Test without Button",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-06T09:19:19.896Z",
+    "deliveryMessageId": "<792ab7f3-bc82-a0e3-1458-712b3dbb14f7@gmail.com>",
+    "id": "log_1791278359896_5f7281",
+    "timestamp": 1791278359896
+  },
+  {
+    "recipientEmail": "onlinetasklab@gmail.com",
+    "recipientName": "Admin Test",
+    "username": "admin",
+    "purpose": "broadcast_email",
+    "subject": "[PREVIEW] Hello @mmifarhan from Online Task Lab",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-06T09:11:08.932Z",
+    "deliveryMessageId": "<4795e03e-3bae-71eb-b954-da2e3e456f34@gmail.com>",
+    "id": "log_1791277868932_88d2ae",
+    "timestamp": 1791277868932
+  },
+  {
+    "recipientEmail": "mmifarhan8@gmail.com",
+    "recipientName": "Munzurul Farhan",
+    "username": "mmifarhan",
+    "purpose": "broadcast_email",
+    "subject": "Hello @mmifarhan from Online Task Lab",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-06T09:09:06.719Z",
+    "deliveryMessageId": "<9c336a38-71b1-37bc-b425-a76a353006b8@gmail.com>",
+    "id": "log_1791277746719_3bb7aa",
+    "timestamp": 1791277746719
+  },
+  {
+    "recipientEmail": "onlinetasklab@gmail.com",
+    "recipientName": "Admin Farhan",
+    "username": "farhan",
+    "purpose": "broadcast_email",
+    "subject": "Test Broadcast Announcement",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-01T09:36:25.091Z",
+    "deliveryMessageId": "<49b4c996-5531-f4c4-dbca-b15b0cb3cbde@gmail.com>",
+    "id": "log_1790847385091_35d231",
+    "timestamp": 1790847385091
+  },
+  {
+    "recipientEmail": "onlinetasklab@gmail.com",
+    "recipientName": "Admin Test",
+    "username": "admin_test",
+    "purpose": "test_email",
+    "subject": "Resent: [TEST] Online Task Lab Verification Code: 105799",
+    "otpCode": "498013",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-01T09:18:07.137Z",
+    "expiresAt": "2026-10-01T09:28:05.505Z",
+    "deliveryMessageId": "<5babad09-0a6d-fbfc-f169-def0797dd72f@gmail.com>",
+    "id": "log_1790846287137_e2d5ea",
+    "timestamp": 1790846287137
+  },
+  {
+    "recipientEmail": "onlinetasklab@gmail.com",
+    "recipientName": "Admin Test",
+    "username": "admin_test",
+    "purpose": "test_email",
+    "subject": "[TEST] Online Task Lab Verification Code: 105799",
+    "otpCode": "105799",
+    "status": "delivered",
+    "provider": "Brevo SMTP",
+    "sentAt": "2026-10-01T09:15:12.064Z",
+    "expiresAt": "2026-10-01T09:25:10.517Z",
+    "deliveryMessageId": "<52fcd516-fdfb-a6c0-2359-15c3cb5749f1@gmail.com>",
+    "id": "log_1790846112064_bab62a",
+    "timestamp": 1790846112064
+  }
+]

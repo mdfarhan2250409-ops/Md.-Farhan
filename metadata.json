@@ -1,0 +1,6 @@
+{
+  "name": "Online Task Lab (OTL)",
+  "description": "Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources — curated mobile apps, AI prompts, landing pages, and Lightroom presets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

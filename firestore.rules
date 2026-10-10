@@ -1,0 +1,173 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if the caller is an authenticated user
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if the user is an authorized admin
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email in ['onlinetasklab@gmail.com', 'md.farhan2250409@gmail.com'] ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // Helper to check if caller owns the document
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Users Collection Rules
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow update: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow delete: if isAdmin() || isOwner(userId);
+    }
+
+    // User Activities Collection Rules
+    match /user_activities/{activityId} {
+      allow read: if isAuthenticated() && (isAdmin() || resource.data.userId == request.auth.uid);
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Admin Activity Audit Logs Rules
+    match /admin_activity_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Email Templates, Logs & Settings Rules
+    match /email_templates/{templateId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /email_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+    
+    match /email_settings/{settingId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Public / App Content (Resources, Products, Categories, Inquiries, Settings)
+    match /resources/{resourceId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if true;
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if true;
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /site_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Support System (Conversations, Messages, AI Providers, Knowledge Base)
+    match /support_conversations/{conversationId} {
+      allow read, create, update: if true;
+      allow delete: if isAdmin();
+    }
+
+    match /support_messages/{messageId} {
+      allow read, create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    match /ai_providers/{providerId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /knowledge_documents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Verification OTPs Collection Rules - Backend API only, strictly deny direct client access
+    match /verification_otps/{otpId} {
+      allow read, write: if false;
+    }
+
+    match /password_reset_otps/{otpId} {
+      allow read, write: if false;
+    }
+
+    // Guest Profiles & Visitor Sessions (Anonymous tracking & Account linking)
+    match /guestProfiles/{guestId} {
+      // Only admins can query/list all visitor profiles.
+      // Individual document get allowed for admin, linked account owner, or anonymous visitor requesting by ID.
+      allow list: if isAdmin();
+      allow get: if isAdmin() || 
+                    (isAuthenticated() && resource.data.linkedUserId == request.auth.uid) ||
+                    (!isAuthenticated() && (resource.data.linkedUserId == null || !('linkedUserId' in resource.data)));
+      
+      // Creation allowed for guests creating their own record
+      allow create: if request.resource.data.guestId == guestId;
+
+      // Update: Admin can update anything.
+      // Authenticated user can link only to their own uid (request.auth.uid == request.resource.data.linkedUserId)
+      // Unauthenticated visitor can update if document is not linked and not setting linkedUserId.
+      allow update: if isAdmin() ||
+                      (isAuthenticated() && (
+                        (request.auth.uid == request.resource.data.linkedUserId) ||
+                        (resource.data.linkedUserId == request.auth.uid)
+                      )) ||
+                      (!isAuthenticated() && 
+                        (resource.data.linkedUserId == null || !('linkedUserId' in resource.data)) &&
+                        (request.resource.data.linkedUserId == null || !('linkedUserId' in request.resource.data))
+                      );
+
+      allow delete: if isAdmin();
+    }
+
+    match /guestSessions/{sessionId} {
+      // Only admins can query/list all visitor sessions.
+      allow list: if isAdmin();
+      allow get: if isAdmin() || 
+                    (isAuthenticated() && resource.data.linkedUserId == request.auth.uid) ||
+                    (!isAuthenticated() && (resource.data.linkedUserId == null || !('linkedUserId' in resource.data)));
+      
+      allow create: if true;
+
+      allow update: if isAdmin() ||
+                      (isAuthenticated() && (
+                        (request.auth.uid == request.resource.data.linkedUserId) ||
+                        (resource.data.linkedUserId == request.auth.uid)
+                      )) ||
+                      (!isAuthenticated() && 
+                        (resource.data.linkedUserId == null || !('linkedUserId' in resource.data)) &&
+                        (request.resource.data.linkedUserId == null || !('linkedUserId' in request.resource.data))
+                      );
+
+      allow delete: if isAdmin();
+    }
+  }
+}

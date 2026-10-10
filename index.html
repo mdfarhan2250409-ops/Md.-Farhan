@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        if (typeof window !== 'undefined') {
+          // Cleanly satisfy Vite HMR WebSocket in cloud container environments where HMR is disabled
+          var OrigWebSocket = window.WebSocket;
+          if (OrigWebSocket) {
+            var MockWebSocket = function(url, protocols) {
+              var isViteHMR = protocols === 'vite-hmr' || (Array.isArray(protocols) && protocols.indexOf('vite-hmr') !== -1);
+              if (isViteHMR) {
+                var listeners = {};
+                var mock = {
+                  CONNECTING: 0,
+                  OPEN: 1,
+                  CLOSING: 2,
+                  CLOSED: 3,
+                  readyState: 1,
+                  protocol: 'vite-hmr',
+                  url: String(url),
+                  extensions: '',
+                  bufferedAmount: 0,
+                  binaryType: 'blob',
+                  onopen: null,
+                  onclose: null,
+                  onerror: null,
+                  onmessage: null,
+                  addEventListener: function(type, fn) {
+                    listeners[type] = listeners[type] || [];
+                    listeners[type].push(fn);
+                  },
+                  removeEventListener: function(type, fn) {
+                    if (!listeners[type]) return;
+                    listeners[type] = listeners[type].filter(function(cb) { return cb !== fn; });
+                  },
+                  dispatchEvent: function() { return true; },
+                  send: function() {},
+                  close: function() {
+                    mock.readyState = 3;
+                  }
+                };
+                return mock;
+              }
+              return new OrigWebSocket(url, protocols);
+            };
+            MockWebSocket.CONNECTING = 0;
+            MockWebSocket.OPEN = 1;
+            MockWebSocket.CLOSING = 2;
+            MockWebSocket.CLOSED = 3;
+            MockWebSocket.prototype = OrigWebSocket.prototype;
+            window.WebSocket = MockWebSocket;
+          }
+
+          window.addEventListener('unhandledrejection', function(e) {
+            var r = e && e.reason;
+            var msg = (r && (r.message || (typeof r === 'string' ? r : ''))) || '';
+            if (msg.indexOf('WebSocket') !== -1 || msg.indexOf('websocket') !== -1) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }, true);
+
+          var origConsoleError = console.error;
+          console.error = function() {
+            var args = Array.prototype.slice.call(arguments);
+            var text = args.map(function(a) {
+              return (a && a.message) || (typeof a === 'object' ? '' : String(a));
+            }).join(' ');
+            if (text.indexOf('websocket') !== -1 || text.indexOf('WebSocket') !== -1) {
+              return;
+            }
+            origConsoleError.apply(console, arguments);
+          };
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B1D51" />
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="gG0srSqE914Cog6uJxZzgAfN-tHlW_6-hN07pnYT10c" />
+
+    <!-- Primary Meta Tags -->
+    <title>Online Task Lab (OTL)</title>
+    <meta name="title" content="Online Task Lab (OTL)" />
+    <meta name="description" content="Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources — curated mobile apps, AI prompts, landing pages, and Lightroom presets." />
+    <meta name="keywords" content="OTL, Online Task Lab, OnlineTaskLab, Online Task Lab website, OTL website, Online Task Lab official website, OTL online tasks, Online Task Lab tasks, digital resources, mobile apps, AI prompts, landing pages, Lightroom presets" />
+    <meta name="author" content="Online Task Lab (OTL)" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://onlinetasklab.freedev.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://onlinetasklab.freedev.app/" />
+    <meta property="og:site_name" content="Online Task Lab" />
+    <meta property="og:title" content="Online Task Lab (OTL)" />
+    <meta property="og:description" content="Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources — curated mobile apps, AI prompts, landing pages, and Lightroom presets." />
+    <meta property="og:image" content="https://onlinetasklab.freedev.app/og-image.svg" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://onlinetasklab.freedev.app/" />
+    <meta name="twitter:title" content="Online Task Lab (OTL)" />
+    <meta name="twitter:description" content="Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources — curated mobile apps, AI prompts, landing pages, and Lightroom presets." />
+    <meta name="twitter:image" content="https://onlinetasklab.freedev.app/og-image.svg" />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/logo.svg" />
+
+    <!-- Static Structured Data: Organization and WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://onlinetasklab.freedev.app/#organization",
+          "name": "Online Task Lab",
+          "alternateName": ["OTL", "OnlineTaskLab", "Online Task Lab (OTL)"],
+          "url": "https://onlinetasklab.freedev.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://onlinetasklab.freedev.app/logo.svg",
+            "width": 200,
+            "height": 200
+          },
+          "image": "https://onlinetasklab.freedev.app/og-image.svg",
+          "description": "Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources.",
+          "sameAs": [
+            "https://t.me/OnlineTaskLab",
+            "https://youtube.com/@onlinetasklab",
+            "https://facebook.com/onlinetasklab",
+            "https://twitter.com/onlinetasklab"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://onlinetasklab.freedev.app/#website",
+          "url": "https://onlinetasklab.freedev.app/",
+          "name": "Online Task Lab",
+          "alternateName": ["OTL", "OnlineTaskLab"],
+          "description": "Online Task Lab (OTL) is an online platform for discovering digital tasks, opportunities and useful resources.",
+          "publisher": {
+            "@id": "https://onlinetasklab.freedev.app/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://onlinetasklab.freedev.app/search?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

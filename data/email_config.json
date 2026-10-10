@@ -1,0 +1,13 @@
+{
+  "provider": "auto",
+  "smtpHost": "smtp-relay.brevo.com",
+  "smtpPort": 587,
+  "smtpUser": "test@example.com",
+  "smtpPass": "pass123",
+  "smtpSecure": false,
+  "smtpFromName": "Online Task Lab",
+  "smtpFromEmail": "test@example.com",
+  "brevoApiKey": "xkeysib-test",
+  "updatedAt": "2026-10-10T10:12:04.879Z",
+  "updatedBy": "admin"
+}
